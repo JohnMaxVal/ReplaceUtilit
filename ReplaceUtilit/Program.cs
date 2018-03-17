@@ -16,7 +16,8 @@ namespace ReplaceUtilit
 
             //string str = reading.ReadToEnd();
             //Console.WriteLine(str);
-            ReadTextFile();
+           ReadTextFile();
+            
 
             Console.ReadKey();
         }
@@ -34,18 +35,17 @@ namespace ReplaceUtilit
 
         private static string ReFormat(string str)
         {
-            string PATTERN = @"\b([A-Za-z]+(?:\dm\s\d{2}s))\b";
-            string REPLACE_PATTERN = @"\b([A-Za-z]+(?:\s\dm\s\d\ds))\b";
-            string newStr;
+            string PATTERN = @"(?<=[A-Za-z]+)(\dm\s\d{2}s)";
+            string REPLACE_PATTERN = @"(?<=[A-Za-z]+)(\dm\s\d{2}s)";
 
             Match match = Regex.Match(str, PATTERN);
 
-            if(match.Success)
+            if (match.Success)
             {
-                Regex.Replace(str, PATTERN, REPLACE_PATTERN, RegexOptions.IgnoreCase);
+                str = Regex.Replace(str, PATTERN, REPLACE_PATTERN, RegexOptions.IgnoreCase);
             }
 
-            return newStr.Tex;
+            return str;
         }
     }
 }
