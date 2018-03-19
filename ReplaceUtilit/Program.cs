@@ -1,29 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ReplaceUtilit
 {
     class Program
     {
+        public const string path = @"D:\titles.txt";
+        public const string newPath = @"D:\replace.txt";
         static void Main(string[] args)
         {
             ReadTextFile();
+            File.ReadAllText(newPath);
+
+            Console.WriteLine("Done!");
 
             Console.ReadKey();
         }
 
         public static void ReadTextFile()
         {
-            string[] lines = File.ReadAllLines(@"D:\titles.txt");
+            string[] lines = File.ReadAllLines(path);
 
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
-                Console.WriteLine(ReFormat(line));
+                File.AppendAllText(newPath, ReFormat(line));
             }
         }
 
@@ -35,12 +36,12 @@ namespace ReplaceUtilit
 
             if (Regex.IsMatch(str, @"\b([A-Za-z]+(?:\dm\s\d\d?s))\b"))
             {
-                str = Regex.Replace(str, PATTERN, REPLACE_PATTERN);
+                str = Regex.Replace(str, PATTERN, REPLACE_PATTERN);                
             }
             else if (Regex.IsMatch(str, @"\b([A-Za-z]+(?:\d\dm\s\d\d?s))\b"))
             {
                 str = Regex.Replace(str, PATTERN, REPLACE_TITLE_PATTERN);
-                str = "\n" + str;
+                str = "\r\n\r\n" + str + "\r\n";
             }
             else if (Regex.IsMatch(str, @"\b([\?]+(?:\dm\s\d\d?s))\b"))
             {
@@ -55,7 +56,7 @@ namespace ReplaceUtilit
                 str = Regex.Replace(str, PATTERN, REPLACE_PATTERN);
             }
 
-            return str;
+            return str + Environment.NewLine;            
         }
     }
 }
